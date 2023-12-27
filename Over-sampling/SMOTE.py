@@ -5,6 +5,8 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score
 from imblearn.over_sampling import SMOTE
 from collections import Counter
+import matplotlib.pyplot as plt
+import seaborn as sn
 
 data = pd.read_csv("car_evaluation.csv")
 # print(data.head())
@@ -40,4 +42,12 @@ print("\nAfter  SMOTE :",Counter(y_train_smote))
 model.fit(x_train_smote,y_train_smote)
 y_predict = model.predict(x_test)
 print(accuracy_score(y_test,y_predict))
-print(pd.crosstab(y_test,y_predict))
+cm = pd.crosstab(y_test,y_predict)
+print(cm)
+
+plt.figure(figsize=(10,7))
+sn.heatmap(cm, annot=True)
+plt.xlabel('predicted')
+plt.ylabel('truth')
+
+plt.show()
